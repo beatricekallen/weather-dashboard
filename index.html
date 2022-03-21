@@ -31,17 +31,22 @@
                 autofocus="true"
                 class="form-control"
                 placeholder="City"
-              />
-              <button type="submit" class="btn btn-dark btn-block p-2">
+              /><br />
+              <button
+                type="submit"
+                class="btn btn-dark btn-block p-2"
+                id="button"
+              >
                 Search
               </button>
             </form>
           </div>
         </div>
+        <div id="search-history"></div>
         <div class="col-12 col-md-9">
-          <div class="card">
+          <div class="card" id="city-container-current">
             <h3 class="card-header text-left" id="city-name">TEST CITY</h3>
-            <p id="city-date"></p>
+            <p id="city-date">test</p>
             <p id="weather-icon"></p>
             <p id="city-temp"></p>
             <p id="city-humidity"></p>
