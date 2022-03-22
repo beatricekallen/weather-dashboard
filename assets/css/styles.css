@@ -3,3 +3,40 @@ header h1 {
   width: 100%;
   padding: 20px;
 }
+
+img {
+  padding: 2px;
+}
+
+p {
+  line-height: normal;
+  text-indent: 2%;
+}
+
+.forecast {
+  display: flex;
+  justify-content: space-around;
+}
+
+.forecast-days {
+  border: 1px solid black;
+  padding: 2px;
+  flex: 1;
+  margin: 2px;
+  border-radius: 2px;
+  background-color: black;
+  color: white;
+}
+
+.uv-low {
+  display: inline;
+  background-color: green;
+}
+
+.uv-moderate {
+  background-color: orange;
+}
+
+.uv-high {
+  background-color: red;
+}
