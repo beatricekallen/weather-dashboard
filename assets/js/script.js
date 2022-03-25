@@ -11,6 +11,7 @@ var submitButtonEl = document.querySelector("#button");
 var forecastContainerEl = document.querySelector("#forecast");
 var forecastContainerHeadingEl = document.querySelector("#forecast-heading");
 var searchHistoryButtonsEl = document.querySelector(".btn-secondary");
+var searchHistoryContainerEl = document.querySelector("#search-history");
 var citiesArray = [];
 
 // form handler function: needs to prevent default and run getWeather function on submission
@@ -37,7 +38,6 @@ var getCityCoord = function (city) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          // console.log(data);
           lat = data[0].lat;
           long = data[0].lon;
           cityNameEl.textContent = data[0].name;
@@ -77,9 +77,15 @@ var displayWeather = function (data) {
   console.log(data);
   forecastContainerEl.textContent = "";
 
-  var utcDate = parseInt(data.current.dt) + parseInt(data.timezone_offset);
+  var currentDateUnix = data.current.dt;
+  var date = new Date(currentDateUnix * 1000);
+  var month = date.getMonth();
+  var day = date.getDate();
+  var year = date.getFullYear();
 
-  cityDateEl.textContent = new Date(parseInt(utcDate));
+  var currentFormattedTime = parseInt(month) + 1 + "/" + day + "/" + year;
+
+  cityDateEl.textContent = currentFormattedTime;
   cityWeatherIconEl.innerHTML = `<img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'/>`;
   cityWeatherTempEl.textContent = `Current temperature: ${data.current.temp}°F`;
   cityHumidityEl.textContent = `Current humidity: ${data.current.humidity}%`;
@@ -94,8 +100,16 @@ var displayWeather = function (data) {
 
   forecastContainerHeadingEl.textContent = "5-Day Forecast";
 
-  for (var i = 0; i < 5; i++) {
-    var forecastUtcDate = data.daily[i].dt;
+  for (var i = 1; i < 6; i++) {
+    var forecastUnixDate = data.daily[i].dt;
+
+    var date = new Date(forecastUnixDate * 1000);
+    var month = date.getMonth();
+    var day = date.getDate();
+    var year = date.getFullYear();
+
+    var forecastFormattedTime = parseInt(month) + 1 + "/" + day + "/" + year;
+
     var forecastDayEl = document.createElement("div");
     var forecastDateEl = document.createElement("p");
     var forecastIconEl = document.createElement("p");
@@ -103,11 +117,11 @@ var displayWeather = function (data) {
     var forecastWindSpeedEl = document.createElement("p");
     var forecastHumidityEl = document.createElement("p");
 
-    forecastDateEl.textContent = Date(forecastUtcDate);
+    forecastDateEl.textContent = forecastFormattedTime;
     forecastIconEl.innerHTML = `<img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'/>`;
     forecastTempEl.textContent = `Temp: ${data.daily[i].temp.day}°F`;
     forecastWindSpeedEl.textContent = `Windspeed: ${data.daily[i].wind_speed} mph`;
-    forecastHumidityEl.textContent = `UV index: ${data.daily[i].humidity}%`;
+    forecastHumidityEl.textContent = `Humidity: ${data.daily[i].humidity}%`;
 
     forecastDayEl.setAttribute("class", "forecast-days");
 
@@ -130,10 +144,11 @@ var storeCities = function (city) {
 var loadCities = function () {
   var storedCities = JSON.parse(localStorage.getItem("search-history"));
 
+  searchHistoryContainerEl.textContent = "";
+
   for (var i = 0; i < storedCities.length; i++) {
     var searchHistoryButtonEl = document.createElement("button");
     searchHistoryButtonEl.textContent = storedCities[i];
-    var searchHistoryContainerEl = document.querySelector("#search-history");
     searchHistoryButtonEl.setAttribute("data-search", storedCities[i]);
     searchHistoryButtonEl.setAttribute(
       "class",
