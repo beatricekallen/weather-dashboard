@@ -32,7 +32,7 @@ var formSubmitHandler = function (event) {
 
 // getCityName function: needs to convert city name into coordinates
 var getCityCoord = function (city) {
-  var geoApiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=a0c2e4175139a11ef4d0913ba3bef922`;
+  var geoApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=a0c2e4175139a11ef4d0913ba3bef922`;
 
   fetch(geoApiUrl)
     .then(function (response) {
