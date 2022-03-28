@@ -34,6 +34,8 @@ var formSubmitHandler = function (event) {
 var getCityCoord = function (city) {
   var geoApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=a0c2e4175139a11ef4d0913ba3bef922`;
 
+  console.log(geoApiUrl);
+
   fetch(geoApiUrl)
     .then(function (response) {
       if (response.ok) {
